@@ -44,7 +44,7 @@ function renderCategories() {
     categorySection.innerHTML = `
       <div class="d-flex justify-content-between align-items-center mb-2">
         <h3 class="mb-0 flex-grow-1">${category.name}</h3>
-        <button class="btn btn-danger btn-sm delete-category-btn ms-3">Delete</button>
+        <button class="btn btn-danger btn-sm delete-category-btn ms-3">Delete Category</button>
       </div>
       <div class="input-group mb-2">
         <input type="text" class="form-control task-input" placeholder="Enter a task">
