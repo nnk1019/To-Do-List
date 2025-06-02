@@ -51,31 +51,41 @@ body.night-mode .btn-outline-dark
   border-color: #f1f1f1;
 }
 
-body.night-mode .btn-outline-dark {
+body.night-mode .btn-outline-dark 
+{
   color: #fff !important;
   border-color: #fff !important;
   background-color: #23272b !important;
 }
 
-#toggleThemeBtn {
+#toggleThemeBtn 
+{
   position: absolute !important;
   top: 1rem !important;
   right: 1rem !important;
   left: auto !important;
 }
 
-body.night-mode a, body.night-mode a:visited {
+body.night-mode a, body.night-mode a:visited 
+{
   color: #66bfff !important; /* Light blue, good contrast on dark backgrounds */
   text-decoration: underline;
 }
 
-body.night-mode a:hover, body.night-mode a:focus {
+body.night-mode a:hover, body.night-mode a:focus 
+{
   color: #a3d8ff !important; /* Even lighter blue on hover/focus */
 }
 
-#completedTasksContainer .list-group-item {
+#completedTasksContainer .list-group-item 
+{
   border: 1px solid #dee2e6 !important;
   border-radius: 0.375rem;
   margin-bottom: 8px;
   background: inherit;
+}
+
+#completedTasksContainer > section:first-child 
+{
+  margin-top: 3rem; /* Add some space above the completed tasks section */
 }

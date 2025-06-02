@@ -25,8 +25,11 @@ function render() {
     const catSection = document.createElement('section');
     catSection.className = 'mb-4';
 
-    const catTitleRow = document.createElement('div');
+const catTitleRow = document.createElement('div');
 catTitleRow.className = 'd-flex align-items-center mb-2';
+
+const leftGroup = document.createElement('div');
+leftGroup.className = 'd-flex align-items-center';
 
 const catTitle = document.createElement('h3');
 catTitle.textContent = category;
@@ -43,8 +46,24 @@ collapseBtn.addEventListener('click', () => {
   collapseBtn.textContent = isCollapsed ? '+' : '-';
 });
 
-catTitleRow.appendChild(catTitle);
-catTitleRow.appendChild(collapseBtn);
+leftGroup.appendChild(catTitle);
+leftGroup.appendChild(collapseBtn);
+
+const deleteCategoryBtn = document.createElement('button');
+deleteCategoryBtn.className = 'btn btn-danger btn-sm ms-auto';
+deleteCategoryBtn.textContent = 'Delete Category';
+
+deleteCategoryBtn.addEventListener('click', () => {
+  if (confirm(`Delete all completed tasks in "${category}"?`)) {
+    // Remove all tasks in this category from completedTasks
+    completedTasks = completedTasks.filter(task => task.category !== category);
+    localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+    render();
+  }
+});
+
+catTitleRow.appendChild(leftGroup);
+catTitleRow.appendChild(deleteCategoryBtn);
 catSection.appendChild(catTitleRow);
 
 // Collapsible content
