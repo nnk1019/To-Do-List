@@ -89,3 +89,13 @@ body.night-mode a:hover, body.night-mode a:focus
 {
   margin-top: 3rem; /* Add some space above the completed tasks section */
 }
+
+body.night-mode p {
+  color: #fff !important;
+}
+
+body.night-mode input::placeholder,
+body.night-mode textarea::placeholder {
+  color: #f1f1f1 !important;
+  opacity: 1 !important; /* Ensures it's not faded */
+}
