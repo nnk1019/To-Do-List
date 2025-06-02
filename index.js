@@ -46,18 +46,16 @@ function renderCategories() {
     <button class="btn btn-danger btn-sm delete-category-btn ms-auto">Delete Category</button>
   </div>
   <div class="category-content">
-    <div class="input-group mb-2">
-      <input type="text" class="form-control task-input" placeholder="Enter a task">
-      <select class="form-select task-reset-select" style="max-width: 120px;">
-        <option value="60000">1 min</option>
-        <option value="3600000">1 hr</option>
-        <option value="21600000">6 hr</option>
-        <option value="43200000">12 hr</option>
-        <option value="86400000" selected>24 hr</option>
-        <option value="172800000">48 hr</option>
-      </select>
-      <button class="btn btn-primary add-task-btn">Add</button>
-    </div>
+     <div class="input-group mb-2">
+    <input type="text" class="form-control task-input" placeholder="Enter a task">
+    <input type="number" class="form-control task-reset-amount" min="1" value="24" style="max-width: 80px;" placeholder="Time">
+    <select class="form-select task-reset-unit" style="max-width: 100px;">
+      <option value="minutes">min</option>
+      <option value="hours" selected>hr</option>
+      <option value="days">day</option>
+    </select>
+    <button class="btn btn-primary add-task-btn">Add</button>
+  </div>
     <ul class="list-group task-list"></ul>
   </div>
 `;
@@ -76,8 +74,9 @@ collapseBtn.addEventListener('click', () => {
     categoriesContainer.appendChild(categorySection);
 
     const input = categorySection.querySelector('.task-input');
-    const addBtn = categorySection.querySelector('.add-task-btn');
-    const resetSelect = categorySection.querySelector('.task-reset-select');
+const addBtn = categorySection.querySelector('.add-task-btn');
+const resetAmount = categorySection.querySelector('.task-reset-amount');
+const resetUnit = categorySection.querySelector('.task-reset-unit');
     const list = categorySection.querySelector('.task-list');
     const deleteCategoryBtn = categorySection.querySelector('.delete-category-btn');
 
@@ -92,7 +91,15 @@ collapseBtn.addEventListener('click', () => {
 // Add new task handler
     addBtn.addEventListener('click', () => {
       const taskText = input.value.trim();
-      const taskResetTime = parseInt(resetSelect.value);
+      let amount = parseInt(resetAmount.value, 10);
+let unit = resetUnit.value;
+let taskResetTime = 86400000; // default 24hr
+
+if (!isNaN(amount) && amount > 0) {
+  if (unit === 'minutes') taskResetTime = amount * 60 * 1000;
+  else if (unit === 'hours') taskResetTime = amount * 60 * 60 * 1000;
+  else if (unit === 'days') taskResetTime = amount * 24 * 60 * 60 * 1000;
+}
       if (!taskText) {
         alert('Please enter a task!');
         return;
@@ -197,13 +204,10 @@ li.innerHTML = `
 
 // Helper function to format ms to readable string
 function formatResetTime(ms) {
-  if (ms === 60000) return '[1m]';
-  if (ms === 3600000) return '[1hr]';
-  if (ms === 21600000) return '[6hr]';
-  if (ms === 43200000) return '[12hr]';
-  if (ms === 86400000) return '[24hr]';
-  if (ms === 172800000) return '[48hr]';
-  return `${Math.round(ms / 60000)} min`;
+  if (ms % 86400000 === 0) return `[${ms / 86400000}d]`;
+  if (ms % 3600000 === 0) return `[${ms / 3600000}hr]`;
+  if (ms % 60000 === 0) return `[${ms / 60000}m]`;
+  return `[${ms}ms]`;
 }
 
   list.appendChild(li);
