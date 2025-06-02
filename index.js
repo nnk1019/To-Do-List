@@ -56,8 +56,8 @@ function renderCategories() {
       <div class="category-content">
         <div class="input-group mb-2">
           <select class="form-select task-reset-mode" style="max-width: 120px;">
-            <option value="interval" selected>Interval</option>
-            <option value="time">Time of Day</option>
+            <option value="interval">Interval</option>
+            <option value="time" selected>Time of Day</option>
           </select>
           <input type="number" class="form-control task-reset-amount" min="1" value="24" style="max-width: 80px;" placeholder="Time">
           <select class="form-select task-reset-unit" style="max-width: 100px;">
@@ -109,6 +109,9 @@ function renderCategories() {
         resetTime.style.display = '';
       }
     });
+
+    // Initialize reset mode visibility
+    resetMode.dispatchEvent(new Event('change'));
 
     // Render tasks for this category
     category.tasks.forEach(task => {
