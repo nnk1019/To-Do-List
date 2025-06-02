@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container my-5">
+    <div class="container my-5">
     <h1 class="text-center mb-4">My To-Do Lists</h1>
     <a href="completed.html" class="btn btn-link mt-3">View Completed Tasks</a>
 
@@ -24,14 +24,20 @@
         <input type="text" id="newCategoryInput" class="form-control" placeholder="Enter new category name">
         <button id="createCategoryBtn" class="btn btn-success">Create Category</button>
     </div>
+    
+    <!-- Notes for users -->
     <p class="text-muted mb-4">
-        Note: Each task marked as complete will automatically reset after 24 hours.
+        *Each task marked as complete will automatically reset after 24 hours.
     </p>
+    <p class="text-muted mb-4">
+        *Completed tasks will be automatically stored in the "Completed Tasks" section upon completing.
+    </p>
+    
     <!-- Container to hold all category lists -->
     <div id="categoriesContainer"></div>
-  </div>
+    </div>
 
-  <script src="index.js"></script>
+    <script src="index.js"></script>
 </body>
 
 
