@@ -34,13 +34,13 @@ catTitle.className = 'mb-0';
 
 const collapseBtn = document.createElement('button');
 collapseBtn.className = 'btn btn-sm btn-outline-secondary ms-2';
-collapseBtn.textContent = 'Collapse';
+collapseBtn.textContent = '-';
 
 let isCollapsed = false;
 collapseBtn.addEventListener('click', () => {
   isCollapsed = !isCollapsed;
   collapsibleDiv.style.display = isCollapsed ? 'none' : '';
-  collapseBtn.textContent = isCollapsed ? 'Expand' : 'Collapse';
+  collapseBtn.textContent = isCollapsed ? '+' : '-';
 });
 
 catTitleRow.appendChild(catTitle);
@@ -105,6 +105,11 @@ function updateThemeBtnText() {
 }
 themeBtn.addEventListener('click', () => {
   document.body.classList.toggle('night-mode');
+  localStorage.setItem('theme', document.body.classList.contains('night-mode') ? 'night' : 'day');
   updateThemeBtnText();
 });
+
+if (localStorage.getItem('theme') === 'night') {
+  document.body.classList.add('night-mode');
+}
 updateThemeBtnText();

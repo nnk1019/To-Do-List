@@ -38,25 +38,41 @@ function renderCategories() {
     categorySection.id = category.id;
 
     categorySection.innerHTML = `
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <h3 class="mb-0 flex-grow-1">${category.name}</h3>
-        <button class="btn btn-danger btn-sm delete-category-btn ms-3">Delete Category</button>
-      </div>
-      <div class="input-group mb-2">
-        <input type="text" class="form-control task-input" placeholder="Enter a task">
-        <select class="form-select task-reset-select" style="max-width: 120px;">
-          <option value="60000">1 min</option>
-          <option value="3600000">1 hr</option>
-          <option value="21600000">6 hr</option>
-          <option value="43200000">12 hr</option>
-          <option value="86400000" selected>24 hr</option>
-          <option value="172800000">48 hr</option>
-        </select>
-        <button class="btn btn-primary add-task-btn">Add</button>
-      </div>
-      <ul class="list-group task-list"></ul>
-    `;
+  <div class="d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center">
+      <h3 class="mb-0">${category.name}</h3>
+      <button class="btn btn-outline-secondary btn-sm ms-2 collapse-category-btn">-</button>
+    </div>
+    <button class="btn btn-danger btn-sm delete-category-btn ms-auto">Delete Category</button>
+  </div>
+  <div class="category-content">
+    <div class="input-group mb-2">
+      <input type="text" class="form-control task-input" placeholder="Enter a task">
+      <select class="form-select task-reset-select" style="max-width: 120px;">
+        <option value="60000">1 min</option>
+        <option value="3600000">1 hr</option>
+        <option value="21600000">6 hr</option>
+        <option value="43200000">12 hr</option>
+        <option value="86400000" selected>24 hr</option>
+        <option value="172800000">48 hr</option>
+      </select>
+      <button class="btn btn-primary add-task-btn">Add</button>
+    </div>
+    <ul class="list-group task-list"></ul>
+  </div>
+`;
 
+// Add collapse functionality
+const collapseBtn = categorySection.querySelector('.collapse-category-btn');
+const categoryContent = categorySection.querySelector('.category-content');
+let collapsed = false;
+collapseBtn.addEventListener('click', () => {
+  collapsed = !collapsed;
+  categoryContent.style.display = collapsed ? 'none' : '';
+  collapseBtn.textContent = collapsed ? '+' : '-';
+});
+
+// Append the category section to the container
     categoriesContainer.appendChild(categorySection);
 
     const input = categorySection.querySelector('.task-input');
@@ -65,7 +81,7 @@ function renderCategories() {
     const list = categorySection.querySelector('.task-list');
     const deleteCategoryBtn = categorySection.querySelector('.delete-category-btn');
 
-    // Render tasks for this category
+// Render tasks for this category
     category.tasks.forEach(task => {
       addTaskToDOM(list, category.id, task);
       if (task.completed && task.completedAt) {
@@ -73,7 +89,7 @@ function renderCategories() {
       }
     });
 
-    // Add new task handler
+// Add new task handler
     addBtn.addEventListener('click', () => {
       const taskText = input.value.trim();
       const taskResetTime = parseInt(resetSelect.value);
@@ -81,7 +97,8 @@ function renderCategories() {
         alert('Please enter a task!');
         return;
       }
-      // Check for duplicates in this category
+
+// Check for duplicates in this category
       if (category.tasks.some(t => t.text.toLowerCase() === taskText.toLowerCase())) {
         alert('Task already exists in this category!');
         return;
@@ -102,7 +119,7 @@ function renderCategories() {
       }
     });
 
-    // Delete category handler
+// Delete category handler
     deleteCategoryBtn.addEventListener('click', () => {
       if (confirm(`Delete category "${category.name}"? This will delete all its tasks.`)) {
         categories = categories.filter(c => c.id !== category.id);
@@ -111,7 +128,7 @@ function renderCategories() {
       }
     });
 
-    // Task checkbox and delete delegation
+// Task checkbox and delete delegation
     list.addEventListener('click', (e) => {
       const li = e.target.closest('li');
       if (!li) return;
@@ -124,14 +141,14 @@ function renderCategories() {
       if (taskIndex === -1) return;
       const task = categories[catIndex].tasks[taskIndex];
 
-      // Checkbox toggle
+// Checkbox toggle
       if (e.target.classList.contains('task-checkbox')) {
         if (e.target.checked) {
           task.completed = true;
           task.completedAt = new Date().toISOString();
           saveCategories();
 
-          // Save completed task record separately
+// Save completed task record separately
           let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
           completedTasks.push({
             task: task.text,
@@ -140,19 +157,20 @@ function renderCategories() {
           });
           localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
 
-          li.querySelector('.task-text').classList.add('completed');
+          li.querySelector('.task-text').classList.add('text-decoration-line-through');
           setTaskResetTimeout(catId, taskId);
         } else {
-          // Unchecked manually before timeout
+         
+// Unchecked manually before timeout
           task.completed = false;
           task.completedAt = null;
           saveCategories();
-          li.querySelector('.task-text').classList.remove('completed');
+          li.querySelector('.task-text').classList.remove('text-decoration-line-through');
         }
         saveCategories();
       }
 
-      // Delete task button
+// Delete task button
       if (e.target.classList.contains('delete-btn')) {
         if (confirm('Delete this task?')) {
           categories[catIndex].tasks.splice(taskIndex, 1);
@@ -172,7 +190,7 @@ function addTaskToDOM(list, categoryId, task) {
 
 li.innerHTML = `
   <input type="checkbox" class="form-check-input me-2 task-checkbox" ${task.completed ? 'checked' : ''} />
-  <span class="task-text ${task.completed ? 'completed' : ''} flex-grow-1">${task.text}</span>
+  <span class="task-text ${task.completed ? 'text-decoration-line-through' : ''} flex-grow-1">${task.text}</span>
   <span class="badge bg-secondary ms-2">${formatResetTime(task.resetTime)}</span>
   <button class="btn btn-danger btn-sm delete-btn ms-3">x</button>
 `;
@@ -235,12 +253,18 @@ function setTaskResetTimeout(catId, taskId) {
 
 // Initial setup for Day/Night mode
 const themeBtn = document.getElementById('toggleThemeBtn');
-function updateThemeBtnText() {
+function updateThemeBtnText() 
+{
   themeBtn.textContent = document.body.classList.contains('night-mode') ? 'Day' : 'Night';
 }
 themeBtn.addEventListener('click', () => {
   document.body.classList.toggle('night-mode');
+  localStorage.setItem('theme', document.body.classList.contains('night-mode') ? 'night' : 'day');
   updateThemeBtnText();
 });
-updateThemeBtnText(); // Set correct text on page load
 
+// Check localStorage for theme preference
+if (localStorage.getItem('theme') === 'night') {
+  document.body.classList.add('night-mode');
+}
+updateThemeBtnText();
