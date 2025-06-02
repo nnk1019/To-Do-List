@@ -12,10 +12,70 @@ li
   background: none;
 }
 
-.completed-task-time {
+.completed-task-time 
+{
   font-size: 0.85em;
   color: gray;
   text-align: right;
   /* Remove margin-left or set it to a small value if you want a gap */
   margin-left: 10px;
+}
+
+body 
+{
+  position: relative;
+}
+
+body.night-mode 
+{
+  background-color: #23272b !important;
+  color: #f1f1f1 !important;
+}
+
+body.night-mode .container, body.night-mode .list-group-item 
+{
+  background-color: #23272b !important;
+  color: #f1f1f1 !important;
+}
+
+body.night-mode input, body.night-mode select, body.night-mode textarea 
+{
+  background-color: #23272b !important;
+  color: #f1f1f1 !important;
+  border-color: #444 !important;
+}
+
+body.night-mode .btn-outline-dark 
+{
+  color: #f1f1f1;
+  border-color: #f1f1f1;
+}
+
+body.night-mode .btn-outline-dark {
+  color: #fff !important;
+  border-color: #fff !important;
+  background-color: #23272b !important;
+}
+
+#toggleThemeBtn {
+  position: absolute !important;
+  top: 1rem !important;
+  right: 1rem !important;
+  left: auto !important;
+}
+
+body.night-mode a, body.night-mode a:visited {
+  color: #66bfff !important; /* Light blue, good contrast on dark backgrounds */
+  text-decoration: underline;
+}
+
+body.night-mode a:hover, body.night-mode a:focus {
+  color: #a3d8ff !important; /* Even lighter blue on hover/focus */
+}
+
+#completedTasksContainer .list-group-item {
+  border: 1px solid #dee2e6 !important;
+  border-radius: 0.375rem;
+  margin-bottom: 8px;
+  background: inherit;
 }

@@ -231,3 +231,16 @@ function setTaskResetTimeout(catId, taskId) {
     }, timeLeft);
   }
 }
+
+
+// Initial setup for Day/Night mode
+const themeBtn = document.getElementById('toggleThemeBtn');
+function updateThemeBtnText() {
+  themeBtn.textContent = document.body.classList.contains('night-mode') ? 'Day' : 'Night';
+}
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('night-mode');
+  updateThemeBtnText();
+});
+updateThemeBtnText(); // Set correct text on page load
+
