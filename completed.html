@@ -92,10 +92,13 @@
             render();
           });
 
-          li.appendChild(taskText);
-          li.appendChild(timestamp);
-          li.appendChild(deleteBtn);
-          ul.appendChild(li);
+const left = document.createElement('span');
+    left.className = 'flex-grow-1';
+    left.appendChild(taskText);
+    li.appendChild(left);
+    li.appendChild(timestamp);
+    li.appendChild(deleteBtn);
+    ul.appendChild(li);
         });
 
         catSection.appendChild(ul);
