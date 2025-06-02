@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Completed Tasks</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      padding: 20px;
+    }
+    .completed-task-time {
+      font-size: 0.85em;
+      color: gray;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Completed Tasks</h1>
+  <div id="completedTasksContainer"></div>
+  <a href="index.html" class="btn btn-link mt-3">Back to To-Do Lists</a>
+
+  <script>
+    const container = document.getElementById('completedTasksContainer');
+
+    // Load completed tasks from localStorage
+    let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
+
+    // Group completed tasks by category
+    const grouped = completedTasks.reduce((acc, task) => {
+      if (!acc[task.category]) {
+        acc[task.category] = [];
+      }
+      acc[task.category].push(task);
+      return acc;
+    }, {});
+
+    // Render function
+    function render() {
+      container.innerHTML = '';
+
+      if (completedTasks.length === 0) {
+        container.textContent = 'No completed tasks yet.';
+        return;
+      }
+
+      for (const [category, tasks] of Object.entries(grouped)) {
+        const catSection = document.createElement('section');
+        catSection.className = 'mb-4';
+
+        const catTitle = document.createElement('h3');
+        catTitle.textContent = category;
+        catSection.appendChild(catTitle);
+
+        const ul = document.createElement('ul');
+        ul.className = 'list-group';
+
+        tasks.forEach((task, index) => {
+          const li = document.createElement('li');
+          li.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+          const taskText = document.createElement('span');
+          taskText.textContent = task.task;
+
+          const timestamp = document.createElement('span');
+          timestamp.className = 'completed-task-time';
+          const dateObj = new Date(task.completedAt);
+          timestamp.textContent = dateObj.toLocaleString();
+
+          const deleteBtn = document.createElement('button');
+          deleteBtn.className = 'btn btn-sm btn-danger ms-3';
+          deleteBtn.textContent = 'X';
+
+          deleteBtn.addEventListener('click', () => {
+            // Remove this task from completedTasks array
+            completedTasks = completedTasks.filter(
+              (t) => !(t.task === task.task && t.completedAt === task.completedAt && t.category === task.category)
+            );
+            localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+
+            // Also update grouped data and re-render
+            grouped[category] = grouped[category].filter(
+              (t) => !(t.task === task.task && t.completedAt === task.completedAt && t.category === task.category)
+            );
+            if (grouped[category].length === 0) {
+              delete grouped[category];
+            }
+            render();
+          });
+
+          li.appendChild(taskText);
+          li.appendChild(timestamp);
+          li.appendChild(deleteBtn);
+          ul.appendChild(li);
+        });
+
+        catSection.appendChild(ul);
+        container.appendChild(catSection);
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
