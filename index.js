@@ -64,7 +64,7 @@ function renderCategories() {
       </div>
       <div class="category-content">
         <div class="input-group mb-2">
-          <select class="form-select task-reset-mode" style="max-width: 120px;">
+          <select class="form-select task-reset-mode" style="max-width: 140px;">
             <option value="interval">Interval</option>
             <option value="time" selected>Time of Day</option>
           </select>
@@ -74,7 +74,7 @@ function renderCategories() {
             <option value="hours" selected>hr</option>
             <option value="days">day</option>
           </select>
-          <input type="time" class="form-control task-reset-time" style="max-width: 120px; display: none;">
+          <input type="time" class="form-control task-reset-time" style="max-width: 140px; display: none;">
           <input type="text" class="form-control task-input" placeholder="Enter a task">
           <button class="btn btn-primary add-task-btn">Add</button>
         </div>

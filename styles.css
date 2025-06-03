@@ -90,7 +90,7 @@ body.night-mode a:hover, body.night-mode a:focus
   margin-top: 3rem; /* Add some space above the completed tasks section */
 }
 
-body.night-mode p {
+body.night-mode ul {
   color: #fff !important;
 }
 
