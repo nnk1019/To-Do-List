@@ -83,7 +83,11 @@ collapsibleDiv.className = 'collapsible-section';
       const timestamp = document.createElement('span');
       timestamp.className = 'completed-task-time';
       const dateObj = new Date(task.completedAt);
-      timestamp.textContent = dateObj.toLocaleString();
+      timestamp.textContent = dateObj.toLocaleString(undefined, {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: getTimeFormat()
+});
 
       const deleteBtn = document.createElement('button');
       deleteBtn.className = 'btn btn-sm btn-danger ms-3';
@@ -132,3 +136,20 @@ if (localStorage.getItem('theme') === 'night') {
   document.body.classList.add('night-mode');
 }
 updateThemeBtnText();
+
+// Time format toggle
+const timeFormatBtn = document.getElementById('toggleTimeFormatBtn');
+function getTimeFormat() {
+  return localStorage.getItem('timeFormat') === '24' ? false : true; // hour12: true for 12h, false for 24h
+}
+function updateTimeFormatBtnText() {
+  timeFormatBtn.textContent = getTimeFormat() ? '24h' : '12h';
+}
+timeFormatBtn.addEventListener('click', () => {
+  const current = localStorage.getItem('timeFormat');
+  localStorage.setItem('timeFormat', current === '24' ? '12' : '24');
+  updateTimeFormatBtnText();
+  render();
+});
+updateTimeFormatBtnText();
+

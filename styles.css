@@ -99,3 +99,11 @@ body.night-mode textarea::placeholder {
   color: #f1f1f1 !important;
   opacity: 1 !important; /* Ensures it's not faded */
 }
+
+/* Make all task checkboxes larger */
+input[type="checkbox"].task-checkbox {
+  width: 1.5em;
+  height: 1.5em;
+  min-width: 1.5em;
+  min-height: 1.5em;
+}
